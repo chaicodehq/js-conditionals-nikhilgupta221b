@@ -26,5 +26,78 @@
  * @returns {string} "weak", "medium", "strong", or "very strong"
  */
 export function checkPasswordStrength(password) {
-  // Your code here
+  if (typeof password !== "string" || password.length === 0) {
+    return "weak"
+  }
+
+  function hasUppercase(str) {
+    for (let i = 0; i < str.length; i+=1) {
+      if (str[i] >= "A" && str[i] <= "Z") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function hasLowercase(str) {
+    for (let i = 0; i < str.length; i+=1) {
+      if (str[i] >= "a" && str[i] <= "z") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function hasNumber(str) {
+    for (let i = 0; i < str.length; i+=1) {
+      if (str[i] >= "0" && str[i] <= "9") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function hasSpecialCharacter(str) {
+    const specialChars = "!@#$%^&*()_+-=[]{}|;:,.<>?"
+    for (let i = 0; i < str.length; i+=1) {
+      if (specialChars.includes(str[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  let criteria = 0;
+
+  if (password.length >= 8) {
+    criteria += 1;
+  }
+
+  if (hasUppercase(password)) {
+    criteria += 1;
+  }
+
+  if (hasLowercase(password)) {
+    criteria += 1;
+  }
+  if (hasNumber(password)) {
+    criteria += 1;
+  }
+
+  if(hasSpecialCharacter(password)) {
+    criteria += 1;
+  }
+
+  if (criteria === 0 || criteria === 1) {
+    return "weak";
+  }
+  else if (criteria === 2 || criteria === 3) {
+    return "medium";
+  }
+  else if (criteria === 4) {
+    return "strong";
+  }
+  else {
+    return "very strong";
+  }
 }
